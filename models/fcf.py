@@ -1,5 +1,6 @@
 """ Discounted free cash flow """
-
+import datetime
+import warnings
 from typing import Type
 from typing import Union
 
@@ -57,6 +58,11 @@ def dfcf(symbol: str,
 
     # free cash flow to equity
     fcf = cf.loc['Operating Cash Flow'] - cf.loc['Capital Expenditure']
+    # if fcf.loc[str(datetime.datetime.now().year-1)] < 0:
+    if fcf.loc['ttm'] < 0:
+        warnings.warn(
+            'free cash flow was negative last year: '
+            'company may not be suited for DFCF valuation')
 
     # net income and ratio of free cash flow to income
     net_income = ist.loc['Net Income Common Stockholders']
