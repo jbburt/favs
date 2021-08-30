@@ -36,12 +36,15 @@ class Client(BaseDataLoader):
         # [re.search(r'\((.*?)\)',s).group(1) for s in df.loc['Avg. Estimate'].index]
         assert 'Current Year' in df.columns.values[-2]
         assert 'Next Year' in df.columns.values[-1]
-        index = [int(re.search(r'\((.*?)\)', s).group(1)) for s in
-                 df.loc['Avg. Estimate'].iloc[-2:].index]
-        values = [pd.to_numeric(s.replace('B', 'e6').replace('M', 'e3')) for s in
-                  df.loc['Avg. Estimate'].iloc[-2:].values]
-        self._projections = pd.DataFrame(
-            index=index, columns=['Revenue'], data=values)
+        try:
+            index = [int(re.search(r'\((.*?)\)', s).group(1)) for s in
+                     df.loc['Avg. Estimate'].iloc[-2:].index]
+            values = [pd.to_numeric(s.replace('B', 'e6').replace('M', 'e3')) for s in
+                      df.loc['Avg. Estimate'].iloc[-2:].values]
+            self._projections = pd.DataFrame(
+                index=index, columns=['Revenue'], data=values)
+        except AttributeError:
+            pass
 
     def load_income_statement(self, symbol: str) -> None:
         url = f"https://finance.yahoo.com/quote/{symbol}/financials?p={symbol}"

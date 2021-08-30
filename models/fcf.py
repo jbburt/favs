@@ -53,7 +53,7 @@ def dfcf(symbol: str,
 
     cf = client.cash_flow
     ist = client.income_statement
-    bs = client.balance_sheet
+    # bs = client.balance_sheet
 
     # free cash flow to equity
     fcf = cf.loc['Operating Cash Flow'] - cf.loc['Capital Expenditure']
@@ -71,18 +71,24 @@ def dfcf(symbol: str,
     rev = ist.loc['Total Revenue']
     rev.drop('ttm', axis=0, inplace=True)
     rev.index = rev.index.astype(int)
+    rev = rev.loc[rev.values > 0]
 
     # Projected revenues
-    rev_proj = client.projections.Revenue
+    try:
+        rev_proj = client.projections.Revenue
+    except AttributeError:
+        raise RuntimeError('Analyst projections for revenue were not found')
 
     # Revenue growth
     rev_all = pd.concat(
         (rev, client.projections.Revenue)
     ).sort_index()
-    rev_growth = rev_all.diff().div(rev_all.shift(1)).dropna()
+    rev_growth = rev_all.diff().div(
+        rev_all.shift(1)).replace(
+        [np.inf, -np.inf], np.nan).dropna()
 
     # Forecasted revenue growth
-    forecast_rev_growth = rev_growth.mean()  # todo make param
+    forecast_rev_growth = rev_growth.dropna().mean()  # todo make param
 
     # Projected revenue, two years out from last analyst estimate
     last_year = rev_proj.index.max()
