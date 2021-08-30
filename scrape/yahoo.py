@@ -1,3 +1,5 @@
+"""Pull financial data down from Yahoo Finance. """
+
 import re
 from typing import List
 

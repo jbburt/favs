@@ -1,3 +1,5 @@
+"""Abstract base class for data-loading/-parsing object. """
+
 import copy
 from abc import ABC
 from abc import abstractmethod
