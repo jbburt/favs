@@ -1,5 +1,5 @@
-Valuation
-=========
+FAVS
+====
 
-A python package for automated fundamental analysis of stocks.
+A python package for Fundamentals-based Automated Valuation of Stocks. 
 
