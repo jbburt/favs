@@ -6,7 +6,7 @@ A python package for Fundamentals-based Automated Valuation of Stocks.
 Usage
 -----
 
-Discounted Future Cash Flow (DFCF) valuation:
+Discounted Free Cash Flow (DFCF) valuation:
 
 ``` python
 from favs.models.fcf import dfcf

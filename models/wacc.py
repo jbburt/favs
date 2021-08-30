@@ -1,3 +1,5 @@
+"""Weighted-average cost of capital."""
+
 from typing import Type
 
 from scrape.base import BaseDataLoader

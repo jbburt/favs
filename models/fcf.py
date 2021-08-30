@@ -18,7 +18,7 @@ def dfcf(symbol: str,
          perp_growth: float = 2.5,
          ) -> float:
     """
-    Discounted future cash flow valuation.
+    Discounted free cash flow valuation.
 
     Parameters
     ----------
@@ -115,7 +115,7 @@ def dfcf(symbol: str,
     # Discount factors
     factors = (1 + required_ret / 100) ** np.arange(1, rev_proj.shape[0] + 1)
 
-    # Present value of future cash flows
+    # Present value of future free cash flows
     pv_fcf = proj_fcf / factors
     pv_fcf_term = proj_fcf_term / factors.max()
 
